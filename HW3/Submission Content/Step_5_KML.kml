@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document>
+<Style id="z1">
+<IconStyle><Icon><href>http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png</href></Icon></IconStyle>
+</Style>
+<Placemark><name>Home</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.281651,34.0319381</coordinates></Point>
+</Placemark>
+<Placemark><name>Accounting</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2858196,34.0193075</coordinates></Point>
+</Placemark>
+<Placemark><name>Business Adm.</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2855009,34.0186232</coordinates></Point>
+</Placemark>
+<Placemark><name>Art History</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2873693,34.0196768</coordinates></Point>
+</Placemark>
+<Placemark><name>Linguistics</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2870939,34.0197465</coordinates></Point>
+</Placemark>
+<Placemark><name>Art</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2878368,34.0190066</coordinates></Point>
+</Placemark>
+<Placemark><name>Design</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2871804,34.0190439</coordinates></Point>
+</Placemark>
+<Placemark><name>Computer Sc.</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2878866,34.0193543</coordinates></Point>
+</Placemark>
+<Placemark><name>Mech. Eng.</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2891488,34.0206132</coordinates></Point>
+</Placemark>
+<Placemark><name>Game Art</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2876887,34.0240822</coordinates></Point>
+</Placemark>
+<Placemark><name>Media Arts</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2868512,34.0236016</coordinates></Point>
+</Placemark>
+<Placemark><name>Choral Music</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2854693,34.023317</coordinates></Point>
+</Placemark>
+<Placemark><name>Jazz Studies</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.2853679,34.0234505</coordinates></Point>
+</Placemark>
+<Style id="poly">
+  <LineStyle>
+    <width>1.5</width>
+  </LineStyle>
+  <PolyStyle>
+    <color>7dff0000</color>
+  </PolyStyle>
+</Style>
+<Placemark>
+  <name>Convex Hull</name>
+  <styleUrl>#poly</styleUrl>
+  <Polygon>
+      <extrude>1</extrude>
+	<altitudeMode>relativeToGround</altitudeMode>
+      <outerBoundaryIs>
+          <LinearRing>
+              <coordinates>
+                  -118.2878368,34.0190066,10
+                  -118.2891488,34.0206132,10
+                  -118.2876887,34.0240822,10
+                  -118.281651,34.0319381,10 
+                  -118.2855009,34.0186232,10 
+                  -118.2878368,34.0190066,10 
+              </coordinates>
+          </LinearRing>
+      </outerBoundaryIs>
+  </Polygon>
+</Placemark>
+<Style id="line">
+  <LineStyle>
+    <width>1.5</width>
+  </LineStyle>
+  <PolyStyle>
+    <color>8014B4FF</color>
+  </PolyStyle>
+</Style>
+<Placemark> 
+ <name>Neighbour 1</name>
+<styleUrl>#line</styleUrl>
+ <LineString>
+  <coordinates>
+	-118.281651,34.0319381,10
+	-118.2853679,34.0234505,10
+  </coordinates>
+ </LineString>
+</Placemark>
+
+<Placemark> 
+ <name>Neighbour 2</name>
+<styleUrl>#line</styleUrl>
+ <LineString>
+  <coordinates>
+	-118.281651,34.0319381,10
+	-118.2854693,34.023317,10
+  </coordinates>
+ </LineString>
+</Placemark>
+
+<Placemark> 
+ <name>Neighbour 3</name>
+<styleUrl>#line</styleUrl>
+ <LineString>
+  <coordinates>
+	-118.281651,34.0319381,10
+	-118.2868512,34.0236016,10
+  </coordinates>
+ </LineString>
+</Placemark>
+
+<Placemark> 
+ <name>Neighbour 4</name>
+<styleUrl>#line</styleUrl>
+ <LineString>
+  <coordinates>
+	-118.281651,34.0319381,10
+	-118.2876887,34.0240822,10
+  </coordinates>
+ </LineString>
+</Placemark>
+</Document></kml>

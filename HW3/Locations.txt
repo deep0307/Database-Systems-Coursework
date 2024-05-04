@@ -1,0 +1,27 @@
+Home - (-118.281651,34.0319381)
+
+Accounting: Marshall - (-118.2858196,34.0193075)
+Business Administration: Marshall - (-118.2855009,34.0186232)
+
+Art History: Dornsife - (-118.2873693,34.0196768)
+Linguistics: Dornsife - (-118.2870939,34.0197465)
+
+Art: Roski - (-118.2878368,34.0190066)
+Design: Roski - (-118.2871804,34.0190439)
+
+Computer Science: Viterbi - (-118.2878866,34.0193543)
+Mechanical Engineering: Viterbi - (-118.2891488,34.0206132)
+
+Game Art: Cinematic Arts - (-118.2876887,34.0240822)
+Media Arts: Cinematic Arts - (-118.2868512,34.0236016)
+
+Choral Music: Thornton - (-118.2854693,34.023317)
+Jazz Studies: Thornton - (-118.2853679,34.0234505)
+
+Polygon:POLYGON((-118.2878368 34.0190066,-118.2891488 34.0206132,-118.2876887 34.0240822,-118.281651 34.0319381,-118.2855009 34.0186232,-118.2878368 34.0190066))
+
+
+tommy trojan: 34.02065080511197, -118.28548971781649
+
+
+

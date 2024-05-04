@@ -1,0 +1,7 @@
+The Data Modelling Lecture:
+
+The lectures start off with how with the basic definition of data models along with its basic components and then talks about its importance. Then it moves on to various models - Hierarchical modeling, Network modelling and finally relational model. Then the lecture moves on to the concept of RDBMS and ER Model. After talking about the pros and cons of ERM and notations the lecture briefly focuses on the o-o and o-r databases. Finally the lecture summarily focuses on No-SQL, External Model, Conceptual Model, Interal Model and Physical Model.
+
+The EER Lecture:
+
+The lecture starts with how EER model is created and starts the discussion of Entity Supertypes and subtypes. Then it moves on to the concept of specialization hierarchy. After explaining the specialization hierarchy the lecture talks about inheriatance and explain how it enables entity subtypes to inherit attributes and relationships of supertypes. Then the lecture talks about the Disjoint and Overlapping Constraints followed by an example. Finally the lecture moves on to the completeness constraints - Partial and Total Completeness followed by an example

@@ -1,0 +1,4 @@
+SELECT location
+FROM points
+ORDER BY cord <-> st_makepoint(-118.281651,34.0319381)
+LIMIT 5;

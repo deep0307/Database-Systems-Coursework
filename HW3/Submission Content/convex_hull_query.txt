@@ -1,0 +1,22 @@
+create extension postgis;
+create table points 
+(
+    location text,
+    cord geometry
+);
+INSERT INTO points VALUES ('Home','POINT(-118.281651 34.0319381)');
+INSERT INTO points VALUES ('Accounting','POINT(-118.2858196 34.0193075)');
+INSERT INTO points VALUES ('Business Adm.','POINT(-118.2855009 34.0186232)');
+INSERT INTO points VALUES ('Art History','POINT(-118.2873693 34.0196768)');
+INSERT INTO points VALUES ('Linguistics','POINT(-118.2870939 34.0197465)');
+INSERT INTO points VALUES ('Art','POINT(-118.2878368 34.0190066)');
+INSERT INTO points VALUES ('Design','POINT(-118.2871804 34.0190439)');
+INSERT INTO points VALUES ('Computer Sc.','POINT(-118.2878866 34.0193543)');
+INSERT INTO points VALUES ('Mech. Eng.','POINT(-118.2891488 34.0206132)');
+INSERT INTO points VALUES ('Game Art','POINT(-118.2876887 34.0240822)');
+INSERT INTO points VALUES ('Media Arts','POINT(-118.2868512 34.0236016)');
+INSERT INTO points VALUES ('Choral Music','POINT(-118.2854693 34.023317)');
+INSERT INTO points VALUES ('Jazz Studies','POINT(-118.2853679 34.0234505)');
+
+Select st_astext(ST_ConcaveHull(ST_Collect(cord::geometry),1)) As polygon
+FROM points;

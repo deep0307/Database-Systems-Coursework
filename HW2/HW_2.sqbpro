@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/deepd/OneDrive/Desktop/USC/Spring 2023/Database Systems/HW2/Check.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="200"/><column_width id="3" width="3951"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,4:mainUser"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Channel" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="158"/><column index="2" value="227"/><column index="3" value="135"/><column index="4" value="262"/><column index="5" value="265"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Q1.sql">-- SQLite
+-- In this query I first obtain the sponsor who has sponsored the most. This is done by using group by on sponsorID and performed Sum operation on sponsorAmount column and stored it as Amount. 
+-- Then I ordered the newly obtained Amount column in descending order (using ORDER BY Amount desc).
+-- Then I performed SELECT operation to get only the first row as that sponsor is the highest sponsor (used 'LIMIT 1') 
+-- Next I performed INNER JOIN on the SponsorList table and the tmp table obtained through query mentioned above on the condition that SponsorList.sponsorID = tmp.sponsorID.
+-- Finally I performed SELECT opertion to display the details of the sponsor as per the requirements of Q1.
+
+
+SELECT SponsorList.sponsorName,SponsorList.sponsorPhone,tmp.Amount from SponsorList INNER JOIN (SELECT * FROM (SELECT sponsorID,sum(sponsorAmount) as Amount from SponsoringVideo GROUP BY sponsorID ORDER BY Amount DESC) LIMIT 1) tmp ON  SponsorList.sponsorID=tmp.sponsorID
+
+ </sql><sql name="Q2.sql">-- SQLite
+-- In this query I first obtained the list of userID's of the users that have the name - &quot;Marvel Entertainment&quot; in them using LIKE command.
+-- I then obtained the list of channels which were owned by the userID's obtained above (stored in tmp).
+-- Then I performed INNER JOIN on the Video table and the Channel table obtained from above on the condition that Video.channelID=tmp.channelID (stored in tmp1).
+-- After this I again performed INNER JOIN on Statistics and the table obtained from above on the condition that Statistics.videoURL=tmp1.videoURL
+-- Before displaying the information required, the Q2, required to order the information based on the ascending order of the video title. So I used ORDER BY title ASC to achieve that.
+-- Finally I displayed all the information required- tmp1.title,tmp1.ChannelName and the ratio of likes and viewCount. For the ratio I multiplied by 1.0 in order to recieve a decimal ratio, otherwise it gives output as 0 since it treats the values as integers.
+
+SELECT tmp1.title,tmp1.ChannelName,(Statistics.likes*1.0/nullif(Statistics.viewCount,0)) as Ratio from Statistics INNER JOIN (SELECT * from Video INNER JOIN (SELECT * FROM Channel where ownerID =(SELECT userID FROM User where userName LIKE '%Marvel Entertainment%')) tmp ON Video.channelID=tmp.channelID) tmp1 ON Statistics.videoURL= tmp1.videoURL ORDER BY tmp1.title ASC</sql><sql name="Q3.sql">-- SQLite
+-- First I performed the SELECT operation to obtain those channels whose creation data was 2023-01-01 using the LIKE command(stored it in tmp1).
+-- Next I performed INNER JOIN on the Subscription Table and the table obtained from above on the condition that Subscription.channelID=tmp1.channelID
+-- while performing INNER JOIN as mentioned above, I performed GROUP BY operation on the column: channelID.
+-- The reason for doing GROUP BY was because I wanted to use the count() function to count the number of Paid Subscribers. If I do not perform the GROUP BY operation, then the output of the table is just a single value and count of paid subscibers across all channels which I did not need.
+-- In the count function I used a case which is a condition in which if the subscriptionType column is &quot;Paid&quot; then it returns 1 otherwise it returns 0.
+-- The above table was stored in tmp
+-- Now in order to display the information according to Q3, I finally performed INNER JOIN on the User table and tmp table on the condition that User.userID=tmp.ownerID.
+-- Before displaying the information there was 1 final condition that the number of Paid subscribers must be greater than 100. This was added in the where condition and finally athe information was displayed as per requirement.
+ 
+SELECT User.userName,User.userEmail,tmp.ChannelName,tmp.subscriptionCount from User INNER JOIN (SELECT *,count(case when Subscription.subscriptionType = 'Paid' then 1 else null end) as PaidCount FROM Subscription INNER JOIN (SELECT * from Channel where creationDateTime like '%2023-01-01%') tmp1 ON Subscription.channelID=tmp1.channelID GROUP BY Subscription.channelID) tmp ON User.userID=tmp.ownerID where tmp.PaidCount&gt;100
+</sql><sql name="Q4.sql">-- SQLite
+-- First I performed SELECT operation on the InfoVideo table to obtain all the keywords assigned to each informational video(stored it in tmp).
+-- After that I performed INNER JOIN on the Comment table and the table obtained from above on the condition that Comment.videoURL = tmp.videoURL.
+-- Then I performed GROUP BY operation on the keywords column as I wanted to take the average sentiment score for each keyword.
+-- Then I finally performed avg() function on the Comment.sentiment column (this column is a sentiment score from a range of 0-100) and stored it in the AverageSentimentScore column.
+-- According the the requirements of Q4, the average sentiment score of each keyword must be displayed in the descending order, so I used ORDER BY function on the AverageSentimentScore column.
+-- Finally I displayed all the information as per requirements.
+
+SELECT tmp.keywords,avg(Comment.sentiment) as AverageSentimentScore FROM Comment INNER JOIN (SELECT * from InfoVideo) tmp WHERE Comment.videoURL=tmp.videoURL GROUP BY tmp.keywords ORDER BY AverageSentimentScore DESC</sql><sql name="Q5.sql">-- SQLite
+-- In this question I first obtained Users having name &quot;Taylor Swift&quot; using like command.
+-- Then I obtained the Channels created by this user through the WHERE command (stored it in tmp).
+-- After obtaining the list of channels, I performed INNER JOIN on the Video table and the tmp table on the condition that video.channelID = tmp.channelID(stored it in tmp1)
+-- After obtaining the Videos of the channels I wanted the Statistics information as it contained the comments column.
+-- Thus I performed INNER JOIN on the Statistics table and tmp1 on the condition that Statistics.videoURL=tmp1.videoURL.
+-- Now, since I wanted to obtain the most commented on video, I had to use the condition where comments = max commented video.
+-- In order to achieve the goal mentioned above I used the max() function on the comments column.
+-- Finally after obtaining the max commented video, I stored it in tmp2.
+-- Then I obtained all the viewers of this max commented video by performing INNER JOIN on the Views table and tmp2 table on the Condition that Views.videoURL=tmp2.videoURL(stored it in tmp3).
+-- Finally I performed INNER JOIN on the User table and tmp3 to obtain the User information.
+-- Since the quesion requirement was to get the MaxAge and MinAge of the viewers I used the max() function and the min() function to obtain it.
+-- Finally displayed all the information as per requirement of Q5 using the SELECT command.
+
+SELECT tmp3.title, min(User.userAge) as MinAge,max(User.userAge) as MaxAge FROM User INNER JOIN (SELECT * from Views INNER JOIN (SELECT max(Statistics.comments) as MaxComments,Statistics.videoURL,title from Statistics INNER JOIN (SELECT * from Video INNER JOIN (SELECT * from Channel where ownerID= (SELECT userID FROM User where userName like '%Taylor Swift%')) tmp ON Video.channelID=tmp.channelID) tmp1 ON Statistics.videoURL=tmp1.videoURL) tmp2 on Views.videoURL=tmp2.videoURL) tmp3 ON User.userID=tmp3.viewerID</sql><sql name="Q6.sql">-- SQLite
+-- Please Note: Since I have considered February as the previous month as the submission is on the last day of the month. Morever I have considered the first 7 days as the first week for convenience and so on. The logic remains the same for all cases only the date ranges change.
+-- First I obtain the users who reside in the US from the User table using the LIKE command(stored it in tmp).
+-- Then I perform INNER JOIN on the Channel table and tmp table on the condition that Channel.ownerID = tmp.userID(stored it in tmp1).
+-- Then I perform INNER JOIN on the Video table and tmp1 table on the condition that Video.channelID = tmp1.channelID
+-- After performing the above INNER JOIN I added the where clause to obtain the videos that were uploaded in the first week of february.
+-- I performed the above procedure 4 times (4 weeks in February) and managed the WHERE clauses accordingly.
+-- Then I used the INTERSECT operation on all the 4 queries in order to obtain the information according to Q4.
+-- Only those records will be displayed that satisfies all the 4 conditions; meaning the user has uploaded the video at least 1 time each week of February.
+
+SELECT tmp1.userName,tmp1.ChannelName,tmp1.subscriptionCount FROM Video INNER JOIN (SELECT * FROM Channel INNER JOIN (SELECT * FROM User where userAddress=&quot;United States&quot;) tmp ON Channel.ownerID=tmp.userID) tmp1 ON Video.channelID=tmp1.channelID WHERE (Video.uploadTime&gt;= &quot;2023-02-01&quot; AND Video.uploadTime&lt;=&quot;2023-02-07&quot;) GROUP BY tmp1.channelID
+INTERSECT 
+SELECT tmp1.userName,tmp1.ChannelName,tmp1.subscriptionCount FROM Video INNER JOIN (SELECT * FROM Channel INNER JOIN (SELECT * FROM User where userAddress=&quot;United States&quot;) tmp ON Channel.ownerID=tmp.userID) tmp1 ON Video.channelID=tmp1.channelID WHERE (Video.uploadTime&gt;= &quot;2023-02-08&quot; AND Video.uploadTime&lt;=&quot;2023-02-14&quot;) GROUP BY tmp1.channelID
+INTERSECT 
+SELECT tmp1.userName,tmp1.ChannelName,tmp1.subscriptionCount FROM Video INNER JOIN (SELECT * FROM Channel INNER JOIN (SELECT * FROM User where userAddress=&quot;United States&quot;) tmp ON Channel.ownerID=tmp.userID) tmp1 ON Video.channelID=tmp1.channelID WHERE (Video.uploadTime&gt;= &quot;2023-02-15&quot; AND Video.uploadTime&lt;=&quot;2023-02-21&quot;) GROUP BY tmp1.channelID
+INTERSECT 
+SELECT tmp1.userName,tmp1.ChannelName,tmp1.subscriptionCount FROM Video INNER JOIN (SELECT * FROM Channel INNER JOIN (SELECT * FROM User where userAddress=&quot;United States&quot;) tmp ON Channel.ownerID=tmp.userID) tmp1 ON Video.channelID=tmp1.channelID WHERE (Video.uploadTime&gt;= &quot;2023-02-22&quot; AND Video.uploadTime&lt;=&quot;2023-02-28&quot;) GROUP BY tmp1.channelID
+</sql><current_tab id="5"/></tab_sql></sqlb_project>

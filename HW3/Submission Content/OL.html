@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OL</title>
+        <script src="https://openlayers.org/api/OpenLayers.js"></script>
+        <style>
+            #map {
+                width: 400px;
+                height: 400px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="https://openlayers.org/api/theme/default/style.css"/>
+    </head>
+
+    <body>
+        <div id="map" class="olMap"></div>
+
+        <script>
+            var dataStored = JSON.parse(localStorage.getItem("Hw3Data"));
+            if (dataStored === null) {
+                var dataStored = {
+                    places: [
+                        { long: -118.281651, lat: 34.0319381 },
+                        { long: -118.2858196, lat: 34.0193075 },
+                        { long: -118.2855009, lat: 34.0186232 },
+                        { long: -118.2873693, lat: 34.0196768 },
+                        { long: -118.2870939, lat: 34.0197465 },
+                        { long: -118.2878368, lat: 34.0190066 },
+                        { long: -118.2871804, lat: 34.0190439 },
+                        { long: -118.2878866, lat: 34.0193543 },
+                        { long: -118.2891488, lat: 34.0206132 },
+                        { long: -118.2876887, lat: 34.0240822 },
+                        { long: -118.2868512, lat: 34.0236016 },
+                        { long: -118.2854693, lat: 34.023317 },
+                        { long: -118.2853679, lat: 34.0234505 },
+                    ],
+                };
+                localStorage.setItem("Hw3Data", JSON.stringify(dataStored));
+            }
+
+            console.log(dataStored);
+
+            function initMap() {
+                map = new OpenLayers.Map("map");
+                basemap = new OpenLayers.Layer.OSM("Simple OSM Map");
+                map.addLayer(basemap);
+                markers = new OpenLayers.Layer.Markers("Markers");
+                map.addLayer(markers);
+            } // initMap()
+
+            function addMarker(latitude, longitude) {
+                var lonLat = new OpenLayers.LonLat(longitude, latitude).transform(
+                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                    map.getProjectionObject() // to Spherical Mercator Projection
+                );
+                var point = new OpenLayers.Marker(lonLat);
+                markers.addMarker(point);
+                map.setCenter(lonLat, 13); // second arg is zoom level
+                //console.log(latitude + ", " + longitude);
+            } // addMarker()
+
+            // load and setup map layers
+            initMap();
+
+
+            var loc = dataStored.places;
+            for (var i in loc) {
+                 console.log(loc[i]); // this could be a single point
+                addMarker(loc[i].lat, loc[i].long);
+            }
+        </script>
+    </body>
+</html>
